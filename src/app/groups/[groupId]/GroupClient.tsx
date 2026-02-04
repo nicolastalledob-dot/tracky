@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import type { User } from '@supabase/supabase-js'
-import type { Group, GroupMember, Entry, MemberRole, EntryType } from '@/lib/types'
+import type { Group, GroupMember, Entry, MemberRole, EntryType, Profile } from '@/lib/types'
+import FinanceDashboard from '@/components/finance/FinanceDashboard'
 import {
     ChevronLeft, ChevronRight, UserPlus, Plus,
     FileText, ListTodo, Wallet, LayoutGrid, Camera, X
@@ -149,7 +150,13 @@ export default function GroupClient({ user, group, role, members, entries }: Gro
                     {activeCategory === 'all' ? 'Reciente' : categories.find(c => c.id === activeCategory)?.name}
                 </h2>
 
-                {filteredEntries.length === 0 ? (
+                {activeCategory === 'debt' ? (
+                    <FinanceDashboard
+                        debts={entries.filter(e => e.entry_type === 'debt')}
+                        members={members.map(m => m.profile).filter(Boolean) as Profile[]}
+                        currentUserId={user.id}
+                    />
+                ) : filteredEntries.length === 0 ? (
                     <div className="bg-[#1a1a1a] border border-white/5 rounded-xl p-8 text-center">
                         <p className="text-gray-500 text-sm">No hay contenido</p>
                     </div>
