@@ -2,7 +2,7 @@
 import { useMemo, useState } from 'react'
 import { simplifyDebts } from '@/lib/utils/debt-simplification'
 import type { Entry, Profile } from '@/lib/types'
-import { ArrowRight, Wallet, CheckCircle2 } from 'lucide-react'
+import { ArrowRight, Wallet } from 'lucide-react'
 
 interface FinanceDashboardProps {
     debts: Entry[] // All debt/loan entries for this group
@@ -44,7 +44,7 @@ export default function FinanceDashboard({ debts, members, currentUserId }: Fina
         return m?.display_name || 'Usuario'
     }
 
-    const mySimplifiedDebts = simplified.filter(t => t.from === currentUserId || t.to === currentUserId)
+
 
     return (
         <div className="space-y-6 animate-fade-in">

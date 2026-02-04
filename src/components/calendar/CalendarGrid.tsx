@@ -59,6 +59,7 @@ export default function CalendarGrid({ entries }: CalendarGridProps) {
         // Map events
         const map: Record<string, { created: Entry[], due: Entry[], completed: Entry[], cancelled: Entry[] }> = {}
 
+
         const addToMap = (date: Date, type: 'created' | 'due' | 'completed' | 'cancelled', entry: Entry) => {
             const key = date.toDateString()
             if (!map[key]) map[key] = { created: [], due: [], completed: [], cancelled: [] }

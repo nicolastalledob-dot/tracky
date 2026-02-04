@@ -1,10 +1,7 @@
 
 import type { Entry } from '@/lib/types'
 
-interface DebtNode {
-    id: string
-    balance: number // + means is owed money, - means owes money
-}
+
 
 interface Transaction {
     from: string

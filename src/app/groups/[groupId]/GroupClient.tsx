@@ -7,7 +7,7 @@ import type { User } from '@supabase/supabase-js'
 import type { Group, GroupMember, Entry, MemberRole, EntryType, Profile } from '@/lib/types'
 import FinanceDashboard from '@/components/finance/FinanceDashboard'
 import {
-    ChevronLeft, ChevronRight, UserPlus, Plus,
+    ChevronLeft, ChevronRight, UserPlus,
     FileText, ListTodo, Wallet, LayoutGrid, Camera, X
 } from 'lucide-react'
 
