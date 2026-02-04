@@ -105,9 +105,9 @@ export default function EntryDetail({ user, entry, group, members }: EntryDetail
         }
     }
 
-    const typeLabels = { note: 'Nota', list: 'Lista', debt: 'Deuda' }
-    const typeIcons = { note: FileText, list: ListTodo, debt: Wallet }
-    const Icon = typeIcons[localEntry.entry_type]
+    const typeLabels: Record<string, string> = { note: 'Nota', list: 'Lista', debt: 'Deuda', loan: 'Préstamo' }
+    const typeIcons: Record<string, typeof FileText> = { note: FileText, list: ListTodo, debt: Wallet, loan: Wallet }
+    const Icon = typeIcons[localEntry.entry_type] || FileText
 
     return (
         <div className="min-h-screen bg-[#0f0f0f]">
@@ -164,8 +164,8 @@ export default function EntryDetail({ user, entry, group, members }: EntryDetail
                     </div>
                 )}
 
-                {/* Debt */}
-                {localEntry.entry_type === 'debt' && (
+                {/* Debt / Loan */}
+                {(localEntry.entry_type === 'debt' || localEntry.entry_type === 'loan') && (
                     <div className="bg-[#1a1a1a] border border-white/5 rounded-xl p-4 mb-6">
                         <div className="flex items-center justify-between mb-3">
                             <p className={`text-3xl font-bold ${localEntry.is_paid ? 'text-green-500' : 'text-yellow-500'}`}>
