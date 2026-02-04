@@ -52,12 +52,14 @@ export default function GroupClient({ user, group, role, members, entries }: Gro
         { id: 'note', name: 'Notas', icon: FileText },
         { id: 'list', name: 'Listas', icon: ListTodo },
         { id: 'debt', name: 'Deudas', icon: Wallet },
+        { id: 'loan', name: 'Préstamos', icon: Wallet },
     ]
 
     const typeIcons: Record<EntryType, typeof FileText> = {
         note: FileText,
         list: ListTodo,
-        debt: Wallet
+        debt: Wallet,
+        loan: Wallet
     }
 
     return (
@@ -152,7 +154,7 @@ export default function GroupClient({ user, group, role, members, entries }: Gro
 
                 {activeCategory === 'debt' ? (
                     <FinanceDashboard
-                        debts={entries.filter(e => e.entry_type === 'debt')}
+                        debts={entries.filter(e => e.entry_type === 'debt' || e.entry_type === 'loan')}
                         members={members.map(m => m.profile).filter(Boolean) as Profile[]}
                         currentUserId={user.id}
                     />
@@ -343,6 +345,15 @@ function CreateEntryModal({ groupId, userId, entryType, members, onClose, onCrea
             entryData.is_paid = false
         }
 
+        if (entryType === 'loan') {
+            entryData.amount = parseFloat(amount) || 0
+            entryData.currency = currency
+            // In a loan, the author (me) is the CREDITOR, and the selected person is the DEBTOR
+            entryData.debtor_id = debtorId || null
+            entryData.creditor_id = userId
+            entryData.is_paid = false
+        }
+
         const { data: entry, error } = await supabase
             .from('entries')
             .insert(entryData)
@@ -389,7 +400,8 @@ function CreateEntryModal({ groupId, userId, entryType, members, onClose, onCrea
     const typeLabels: Record<EntryType, string> = {
         note: 'Nota',
         list: 'Lista',
-        debt: 'Deuda'
+        debt: 'Deuda',
+        loan: 'Préstamo'
     }
 
     return (
@@ -416,7 +428,7 @@ function CreateEntryModal({ groupId, userId, entryType, members, onClose, onCrea
                         />
                     )}
 
-                    {entryType === 'debt' && (
+                    {(entryType === 'debt' || entryType === 'loan') && (
                         <>
                             <div className="flex gap-2">
                                 <select
@@ -440,7 +452,7 @@ function CreateEntryModal({ groupId, userId, entryType, members, onClose, onCrea
                                 onChange={(e) => setDebtorId(e.target.value)}
                                 className="w-full bg-[#252525] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-violet-500"
                             >
-                                <option value="">¿Quién debe?</option>
+                                <option value="">{entryType === 'debt' ? '¿Quién debe?' : '¿A quién le prestaste?'}</option>
                                 {members.map((m) => (
                                     <option key={m.user_id} value={m.user_id}>
                                         {m.profile?.display_name || 'Usuario'}

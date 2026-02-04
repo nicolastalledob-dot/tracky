@@ -1,6 +1,6 @@
 // Database types for TRACKY
 export type MemberRole = 'admin' | 'orchestrator' | 'member' | 'viewer'
-export type EntryType = 'note' | 'list' | 'debt'
+export type EntryType = 'note' | 'list' | 'debt' | 'loan'
 export type EntryStatus = 'draft' | 'pending_approval' | 'approved' | 'rejected'
 export type EntryScope = 'personal' | 'shared'
 export type ApprovalStatus = 'pending' | 'approved' | 'rejected'
@@ -66,6 +66,7 @@ export interface Entry {
     debtor_id: string | null
     creditor_id: string | null
     is_paid: boolean
+    paid_at: string | null
     due_date: string | null
     expiration_date: string | null
     task_status: TaskStatus

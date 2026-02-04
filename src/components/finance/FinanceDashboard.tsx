@@ -5,7 +5,7 @@ import type { Entry, Profile } from '@/lib/types'
 import { ArrowRight, Wallet, CheckCircle2 } from 'lucide-react'
 
 interface FinanceDashboardProps {
-    debts: Entry[] // All debt entries for this group
+    debts: Entry[] // All debt/loan entries for this group
     members: Profile[] // Group members to map IDs to Names
     currentUserId: string
 }
